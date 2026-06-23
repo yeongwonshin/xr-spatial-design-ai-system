@@ -1,0 +1,22 @@
+flowchart LR
+  U[User / Designer / Client] --> XR[XR Client: Vision Pro, Quest, iPad]
+  XR --> CAP[Spatial Capture Engine]
+  XR --> INP[Pen, Hand, Voice, Text Input]
+  CAP --> GRAPH[Semantic Spatial Graph]
+  INP --> COMP[Prompt & Constraint Compiler]
+  GRAPH --> COMP
+  COMP --> ORCH[3D Generation Orchestrator]
+  ORCH --> EXT[External 3D AI Providers]
+  ORCH --> MKT[Asset Marketplace & Brand Catalog]
+  EXT --> ASSET[Generated 3D Assets]
+  MKT --> ASSET
+  ASSET --> VAL[Spatial Validation Engine]
+  GRAPH --> VAL
+  VAL --> XR
+  VAL --> QUOTE[Quote & BOM Engine]
+  VAL --> EXPORT[CAD/BIM/GLB/USDZ Export]
+  XR --> COLLAB[Collaboration, Comments, Approval]
+  COLLAB --> PROJ[Project Platform & Version Control]
+  QUOTE --> PROJ
+  EXPORT --> PROJ
+  PROJ --> BI[Analytics & CRM]

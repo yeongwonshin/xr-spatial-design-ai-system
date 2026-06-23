@@ -1,0 +1,11 @@
+Component,Primary Function,Inputs,Outputs,Build/Buy,Notes
+XR Client,User interaction in spatial environment,Room mesh; assets; comments; input events,Scene updates; sketch strokes; prompts,Build,visionOS first then Quest/iPad/Web
+Spatial Capture Engine,Scan and understand physical room,LiDAR/camera frames; depth mesh,Room mesh; planes; semantic graph,Build+SDK,Use ARKit/RoomPlan or platform equivalent
+Prompt & Constraint Compiler,Convert sketch+language into executable constraints,Sketch strokes; text; voice transcript; room graph,Constraint JSON; generation request,Build,Core IP layer
+Generation Orchestrator,Route to 3D generators and asset retrieval,Constraint JSON; style; budget; catalog filters,Generated assets; candidate variants,Build+API,Integrate Meshy/other providers and internal cache
+Asset Marketplace,Manage brand and generic 3D assets,Product catalog; 3D files; metadata,Search results; purchasable assets,Build,Monetization layer
+Spatial Validation Engine,Check feasibility,Layout variant; room graph; business rules,Validation report; score; warnings,Build,Collision/clearance/budget/installability
+Quote & BOM Engine,Produce project estimate,Assets; pricing; labor rules; quantities,Quote; BOM; lead time,Build+Integrations,ERP/procurement ready
+Collaboration Service,Review and approval workflow,Versions; comments; roles,Approved version; audit trail,Build,B2B account feature
+Export Service,Output design files,Layout; assets; measurements,GLB; USDZ; FBX; DWG; IFC; PDF,Build+Libraries,Professional workflow bridge
+Analytics,Measure project and sales outcomes,Usage; conversion; generation costs,KPIs; dashboards,Build,Pricing and GTM feedback loop

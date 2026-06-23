@@ -1,0 +1,270 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RoomForge XR Spatial Prompt Constraint Schema",
+  "type": "object",
+  "required": [
+    "project_id",
+    "space_id",
+    "intent",
+    "constraints",
+    "generation_request"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string"
+    },
+    "space_id": {
+      "type": "string"
+    },
+    "coordinate_system": {
+      "type": "object",
+      "properties": {
+        "unit": {
+          "type": "string",
+          "enum": [
+            "mm",
+            "cm",
+            "m"
+          ]
+        },
+        "origin": {
+          "type": "string",
+          "description": "AR session origin or room origin"
+        }
+      }
+    },
+    "intent": {
+      "type": "object",
+      "properties": {
+        "raw_text": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "design_domain": {
+          "type": "string",
+          "enum": [
+            "residential",
+            "cafe",
+            "retail",
+            "exhibition",
+            "office",
+            "game_environment"
+          ]
+        },
+        "style_keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "functional_goals": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "negative_constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "sketch_inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "stroke_id": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "semantic_type": {
+            "type": "string",
+            "enum": [
+              "outline",
+              "volume",
+              "path",
+              "anchor",
+              "region",
+              "arrow",
+              "annotation",
+              "unknown"
+            ]
+          },
+          "points": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                },
+                "t": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "properties": {
+        "hard": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/constraint"
+          }
+        },
+        "soft": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/constraint"
+          }
+        }
+      }
+    },
+    "generation_request": {
+      "type": "object",
+      "properties": {
+        "object_categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "quantity": {
+          "type": "integer"
+        },
+        "style": {
+          "type": "string"
+        },
+        "materials": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "preferred_brands": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "output_formats": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "glb",
+              "usdz",
+              "fbx",
+              "obj",
+              "ifc",
+              "dwg"
+            ]
+          }
+        }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string"
+        },
+        "max_amount": {
+          "type": "number"
+        },
+        "include_labor": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "constraint": {
+      "type": "object",
+      "required": [
+        "type",
+        "target"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "position",
+            "dimension",
+            "clearance",
+            "collision",
+            "style",
+            "budget",
+            "brand",
+            "accessibility",
+            "safety",
+            "visibility",
+            "path"
+          ]
+        },
+        "target": {
+          "type": "string"
+        },
+        "operator": {
+          "type": "string",
+          "enum": [
+            "eq",
+            "neq",
+            "lt",
+            "lte",
+            "gt",
+            "gte",
+            "inside",
+            "outside",
+            "near",
+            "far",
+            "align",
+            "avoid"
+          ]
+        },
+        "value": {},
+        "unit": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "sketch",
+            "voice",
+            "text",
+            "system",
+            "designer",
+            "regulation"
+          ]
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    }
+  }
+}

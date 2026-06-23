@@ -1,0 +1,155 @@
+openapi: 3.0.3
+info:
+  title: RoomForge XR API
+  version: 0.1.0
+  description: API specification for XR spatial design generation platform.
+servers:
+  - url: https://api.roomforge-xr.example.com/v1
+paths:
+  /projects:
+    post:
+      summary: Create a new design project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, client_name, domain]
+              properties:
+                name:
+                  type: string
+                client_name:
+                  type: string
+                domain:
+                  type: string
+                  enum: [residential, cafe, retail, exhibition, office, game_environment]
+      responses:
+        '201':
+          description: Project created
+  /projects/{projectId}/spaces:
+    post:
+      summary: Upload or create a scanned space
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                scan_source:
+                  type: string
+                mesh_url:
+                  type: string
+                roomplan_json:
+                  type: object
+      responses:
+        '201':
+          description: Space created
+  /constraints/compile:
+    post:
+      summary: Compile sketch and prompt into spatial constraints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_id:
+                  type: string
+                space_id:
+                  type: string
+                sketch_inputs:
+                  type: array
+                  items:
+                    type: object
+                text_prompt:
+                  type: string
+                voice_transcript:
+                  type: string
+      responses:
+        '200':
+          description: Compiled constraints
+  /generation/jobs:
+    post:
+      summary: Start a 3D generation or layout generation job
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_id:
+                  type: string
+                constraint_payload:
+                  type: object
+                mode:
+                  type: string
+                  enum: [asset_generation, layout_generation, restyle, optimize_budget]
+      responses:
+        '202':
+          description: Job accepted
+  /generation/jobs/{jobId}:
+    get:
+      summary: Get generation job status
+      parameters:
+        - in: path
+          name: jobId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Job status
+  /layouts/{layoutId}/validate:
+    post:
+      summary: Validate a layout against spatial and business rules
+      parameters:
+        - in: path
+          name: layoutId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Validation report
+  /layouts/{layoutId}/quote:
+    post:
+      summary: Generate a quote and bill of materials for a layout
+      parameters:
+        - in: path
+          name: layoutId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Quote generated
+  /exports:
+    post:
+      summary: Export project assets and documents
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                layout_id:
+                  type: string
+                formats:
+                  type: array
+                  items:
+                    type: string
+                    enum: [glb, usdz, fbx, obj, ifc, dwg, pdf, csv]
+      responses:
+        '202':
+          description: Export job accepted
